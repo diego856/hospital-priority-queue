@@ -1,12 +1,12 @@
 package com.unlam.hospitalsystem;
 
 class Patient {
+    private Long id;
     private String name;
     private String condition;
-    private String urgencyLevel
-;
+    private UrgencyLevel urgencyLevel;
 
-    public Patient(String name, String condition, String urgencyLevel) {
+    public Patient(String name, String condition, UrgencyLevel urgencyLevel) {
         this.name = name;
         this.condition = condition;
         this.urgencyLevel = urgencyLevel;
@@ -20,16 +20,14 @@ class Patient {
         return condition;
     }
 
-    public String getUrgencyLevel() {
+    public UrgencyLevel getUrgencyLevel() {
         return urgencyLevel;
     }
 
     @Override
     public String toString() {
-        return "Patient{" +
-                "name='" + name + '\'' +
-                ", condition='" + condition + '\'' +
-                ", urgencyLevel='" + urgencyLevel + '\'' +
-                '}';
+        return " - Name: " + name
+                + "\n - Condition: " + condition
+                + "\n - Urgency Level: " + urgencyLevel;
     }
 }

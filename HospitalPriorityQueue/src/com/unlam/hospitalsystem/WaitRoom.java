@@ -1,5 +1,7 @@
 package com.unlam.hospitalsystem;
 
+import com.unlam.hospitalsystem.Exception.EmptyQueueException;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -19,21 +21,22 @@ class WaitRoom {
     public void addPatient(Patient Patient) {
         if (patients.size() < capacity) {
             patients.add(Patient);
-            heapifyUp(patients.size() - 1);  // Reorganize queue
+            if(getLastIndex() > 0)
+                heapifyUp(getLastIndex());  // Reorganize queue
         } else {
             System.out.println("priority queue is full");
         }
     }
 
-    public Patient assistPatient() {
+    public Patient assistPatient() throws EmptyQueueException {
         if (patients.isEmpty()) {
-            System.out.println("priority queue is empty");
+            //throw new EmptyQueueException("Waiting Room is empty.");
             return null;
         }
 
         Patient attendedPatient = patients.get(0); // First patient from queue
-        patients.set(0, patients.get(patients.size() - 1));
-        patients.remove(patients.size() - 1);
+        patients.set(0, getLatestPatient()); // The First is the Last
+        patients.remove(getLastIndex());
 
         heapifyDown(0); // Reorganize queue
 
@@ -43,7 +46,7 @@ class WaitRoom {
     private void heapifyUp(int index) {
     	int parentIndex = (index - 1) / 2;
 
-        while (index > 0 && compare(patients.get(index), patients.get(parentIndex)) < 0) {
+        while (compare(patients.get(index), patients.get(parentIndex)) < 0) {
             swap(index, parentIndex);
             index = parentIndex;
             parentIndex = (index - 1) / 2;
@@ -69,22 +72,13 @@ class WaitRoom {
         }
     }
 
-    private int compare(Patient Patient1, Patient Patient2) {
+    private int compare(Patient patient1, Patient patient2) {
         //resuscitate > emergency > urgency > little urgency > no urgency
-        String[] urgencyLevels = {"resuscitate", "emergency", "urgency", "little urgency", "no urgency"};
-        int index1 = getIndex(urgencyLevels, Patient1.getUrgencyLevel());
-        int index2 = getIndex(urgencyLevels, Patient2.getUrgencyLevel());
+
+        int index1 = patient1.getUrgencyLevel().getValue();
+        int index2 = patient2.getUrgencyLevel().getValue();
 
         return Integer.compare(index1, index2);
-    }
-
-    private int getIndex(String[] array, String value) {
-        for (int i = 0; i < array.length; i++) {
-            if (array[i].equals(value)) {
-                return i;
-            }
-        }
-        return -1;
     }
 
     private void swap(int i, int j) {
@@ -97,5 +91,13 @@ class WaitRoom {
         for (Patient Patient : patients) {
             System.out.println(Patient);
         }
+    }
+
+    private Patient getLatestPatient() {
+        return patients.get(getLastIndex());
+    }
+
+    private int getLastIndex() {
+        return patients.size() - 1;
     }
 }
