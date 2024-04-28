@@ -30,8 +30,8 @@ class WaitRoom {
 
     public Patient assistPatient() throws EmptyQueueException {
         if (patients.isEmpty()) {
-            //throw new EmptyQueueException("Waiting Room is empty.");
-            return null;
+            throw new EmptyQueueException("Waiting Room is empty.");
+            //return null;
         }
 
         Patient attendedPatient = patients.get(0); // First patient from queue
