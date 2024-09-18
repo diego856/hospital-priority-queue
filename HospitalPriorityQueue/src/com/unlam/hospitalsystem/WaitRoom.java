@@ -24,21 +24,21 @@ class WaitRoom {
             if(getLastIndex() > 0)
                 heapifyUp(getLastIndex());  // Reorganize queue
         } else {
-            System.out.println("priority queue is full");
+            System.out.println("La cola de prioridad está + llena.");
         }
     }
 
     public Patient assistPatient() throws EmptyQueueException {
         if (patients.isEmpty()) {
-            throw new EmptyQueueException("Waiting Room is empty.");
+            throw new EmptyQueueException("La sala de espera esta vacía.");
             //return null;
         }
 
-        Patient attendedPatient = patients.get(0); // First patient from queue
-        patients.set(0, getLatestPatient()); // The First is the Last
+        Patient attendedPatient = patients.get(0);
+        patients.set(0, getLatestPatient());
         patients.remove(getLastIndex());
 
-        heapifyDown(0); // Reorganize queue
+        heapifyDown(0); // Reorganiza la cola de prioridad
 
         return attendedPatient;
     }
@@ -73,7 +73,7 @@ class WaitRoom {
     }
 
     private int compare(Patient patient1, Patient patient2) {
-        //resuscitate > emergency > urgency > little urgency > no urgency
+        // Prioresuscitate > emergency > urgency > little urgency > no urgency
 
         int index1 = patient1.getUrgencyLevel().getValue();
         int index2 = patient2.getUrgencyLevel().getValue();

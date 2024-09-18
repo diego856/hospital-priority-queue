@@ -7,7 +7,7 @@ public enum UrgencyLevel {
     LITTLE_URGENCY(4),
     NO_URGENCY(5);
     private final int value;
-    private UrgencyLevel(int value) {
+    UrgencyLevel(int value) {
         this.value = value;
     }
     public int getValue() {
